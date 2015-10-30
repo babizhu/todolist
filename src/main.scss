@@ -11,7 +11,6 @@ header{
 
 .container{
     width: 760px;
-    heith: auto;
     margin: 0 auto;
 }
 
@@ -30,13 +29,13 @@ header{
 
 .panel{
     background: #fff;
-    border: 1px solid #ddd;
-    padding: 8px;
+    border: 10px solid #ddd;
+    padding: 20px;
     box-shadow: 1px 1px 1px #000;
 
     .panel-header{
         input{
-            width: 80%;
+            width: 70%;
             background: url("./svg/si-glyph-baby.svg") no-repeat;
             padding: 5px 5px;
             padding-left: 50px;

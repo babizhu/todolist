@@ -12,41 +12,44 @@ import TodoFooter from "./TodoFooter.js";
 import ReactDom from "react-dom"
 
 class App extends React.Component {
-    constructor(){
+    constructor() {
         super();
         this.db = new LocalDb('React-Todos');
         this.state = {
             todos: this.db.get("todos") || [],
             isAllChecked: false
         };
-        if(this.state.todos.every((todo)=> todo.isDone)){
+        if (this.state.todos.every((todo)=> todo.isDone)) {
             this.state.isAllChecked = true;
         }
     }
+
     // 判断是否所有任务的状态都完成，同步底部的全选框
-    allChecked(){
+    allChecked() {
         let isAllChecked = false;
-        if(this.state.todos.every((todo)=> todo.isDone)){
+        if (this.state.todos.every((todo)=> todo.isDone)) {
             isAllChecked = true;
         }
-        this.setState({ isAllChecked:isAllChecked});
+        this.setState({isAllChecked: isAllChecked});
     }
 
     // 添加任务，是传递给Header组件的方法
-    addTodo(todoItem){
+    addTodo(todoItem) {
 
         this.state.todos.push(todoItem);
         this.allChecked();
         this.syncDB();
     }
-    syncDB(){
+
+    syncDB() {
+
         this.db.set('todos', this.state.todos);
     }
 
     // 改变任务状态，传递给TodoItem和Footer组件的方法
-    changeTodoState(index, isDone, isChangeAll=false){
+    changeTodoState(index, isDone, isChangeAll = false) {
 
-        if(isChangeAll){
+        if (isChangeAll) {
             this.setState({
                 todos: this.state.todos.map((todo) => {
                     todo.isDone = isDone;
@@ -54,36 +57,40 @@ class App extends React.Component {
                 }),
                 isAllChecked: isDone
             })
-        }else{
+        } else {
             this.state.todos[index].isDone = isDone;
             this.allChecked();
         }
         this.syncDB();
     }
-    test1(){
-        alert(3333455);
-    }
 
     // 清除已完成的任务，传递给Footer组件的方法
-    clearDone(){
+    clearDone() {
         let todos = this.state.todos.filter(todo => !todo.isDone);
+        for (let value of todos) {
+            console.log("clearDone  " + value.text);
+        }
+        this.state.todos = todos;//要好好考虑一下，此行代码和下一行代码的关系
         this.setState({
             todos: todos,
             isAllChecked: false
         });
+        console.log("--------------------------");
+        for (let value of this.state.todos ) {
+            console.log("clearDone  " + value.text + "," + value.index );
+        }
         this.syncDB();
     }
 
     // 删除当前的任务，传递给TodoItem的方法
-    deleteTodo(index){
-		
+    deleteTodo(index) {
         this.state.todos.splice(index, 1);
         this.setState({todos: this.state.todos});
         this.syncDB();
     }
 
-    render(){
-        var abcd = {
+    render() {
+        var otherProps = {
             todoCount: this.state.todos.length || 0,
             todoDoneCount: (this.state.todos && this.state.todos.filter((todo)=>todo.isDone)).length || 0,
             todos: this.state.todos
@@ -91,8 +98,10 @@ class App extends React.Component {
         return (
             <div className="panel">
                 <TodoHeader addTodo={this.addTodo.bind(this)}/>
-                <TodoMain deleteTodo={this.deleteTodo.bind(this)} todos={this.state.todos} changeTodoState={this.changeTodoState.bind(this)}/>
-                <TodoFooter isAllChecked={this.state.isAllChecked} clearDone={this.clearDone.bind(this)} {...abcd} changeTodoState={this.changeTodoState.bind(this)}/>
+                <TodoMain deleteTodo={this.deleteTodo.bind(this)} todos={this.state.todos}
+                          changeTodoState={this.changeTodoState.bind(this)}/>
+                <TodoFooter isAllChecked={this.state.isAllChecked} clearDone={this.clearDone.bind(this)} {...otherProps}
+                            changeTodoState={this.changeTodoState.bind(this)}/>
             </div>
         )
     }

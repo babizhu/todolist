@@ -20,6 +20,9 @@ class TodoHeader extends React.Component {
             this.props.addTodo(newTodoItem);
         }
     }
+    textChange( event ){
+        console.log( "开始自动搜索" + event.target.value );
+    }
     test(){
         alert("这是个陷阱，其实你直接回车就能提交任务啦:-)");
     }
@@ -27,7 +30,7 @@ class TodoHeader extends React.Component {
     render(){
         return (
             <div className="panel-header">
-                <input onKeyUp={this.handlerKeyUp.bind(this)} type="text" placeholder="what's your task ?"/>
+                <input onChange={this.textChange.bind(this)} onKeyUp={this.handlerKeyUp.bind(this)} type="text" placeholder="what's your task ?"/>
                 <button onClick={this.test.bind(this)} className="fr">添加</button>
             </div>
         )
