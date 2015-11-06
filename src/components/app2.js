@@ -1,6 +1,9 @@
 /**
  * Created by YikaJ on 15/6/16.
  * 这里是一个学习的入口地址,可以自行添加测试代码,并且包含了一些功能函数例如componentDidMount等
+ * 功能点：
+ *  1、定时器的用法
+ *  2、render函数中的html标签如何使用style
  */
 'use strict';
 import React from "react";
@@ -14,13 +17,10 @@ import ReactDom from "react-dom"
 class App extends React.Component {
     constructor() {
         super();
-
     }
 
-    componentDidMount () {
-        let isUp = false;
-    this.timer = setInterval(function () {
-        var opacity = this.state.opacity;
+    tick(){
+        let opacity = this.state.opacity;
         if( isUp ){
             opacity += .05;
         }else{
@@ -37,8 +37,12 @@ class App extends React.Component {
         this.setState({
             opacity: opacity
         });
-    }.bind(this), 100);
-}
+    }
+    componentDidMount () {
+        let isUp = false;
+        this.timer = setInterval(this.tick.bind(this), 100);
+    }
+
 
     state = {
         opacity: 1.0,

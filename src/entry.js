@@ -5,6 +5,7 @@
 'use strict';
 // 引入样式表
 require('./main.scss');
+require('./transition.css');
 
 // 引入组件
 require('./components/App');

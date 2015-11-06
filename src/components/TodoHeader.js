@@ -25,6 +25,7 @@ class TodoHeader extends React.Component {
     }
     test(){
         alert("这是个陷阱，其实你直接回车就能提交任务啦:-)");
+        this.setState({x:'z'});
     }
 
     render(){

@@ -1,82 +1,40 @@
 /**
- * Created by liukun on 15/6/16.
- * 一个页面有两个类的情况
+ * Created by YikaJ on 15/6/16.
+ * https://github.com/facebook/react/blob/master/examples/quadratic/example.js的一个例子
+ * 功能点
+ *  1、演示了一个系统事件函数的调用，如何传递额外的参数
+ *  <input type="number" value={a} onChange={this.handleInputChange.bind(this, 'a','第二个参数')} />
+ *
+ *  2、如何用html显示简单的公式
+ *
+ *  3、演示了一个addons---React.addons.CSSTransitionGroup的应用，这是一个动画应用，不过似乎
+ *  http://react-component.github.io/queue-anim/  更好
  *
  */
 'use strict';
-import React from "react";
-import LocalDb from "localDb";
+import React from 'react';
 
-import TodoHeader from "./TodoHeader.js";
-import TodoMain from "./TodoMain.js";
-import TodoFooter from "./TodoFooter.js";
 import ReactDom from "react-dom"
 
-class TodoItem extends React.Component {
-    render() {
 
-        let i = 0;
-        let r = this.props.items.map(item=> {
-            return <li key={++i}>{item}</li>
-        })
-        return (<div style={{color:this.props.color}}>{r}</div>);
-    }
-}
 class App extends React.Component {
-    constructor() {
-        super();
 
-    }
-    loadCommentsFromServer(){
-        let colors = ['red','blue','yellow','black'];
-        let i = parseInt(colors.length*Math.random());
-
-        this.setState({color:colors[i]});
-    }
     componentDidMount() {
-        this.timer = setInterval(function () {
-            this.loadCommentsFromServer();
-        }.bind(this), this.props.pollInterval);
+        //fetch("http://api.money.126.net/data/feed/1000002,money.api",{ mode: "no-cors" }).then( (response) => console.log(response.text()));
+        //fetch("http://api.money.126.net/data/feed/1000002",{ mode: "no-cors" })
+        //    .then((response) => response.json())
+        //    .then(function(data) {
+        //        console.log(data);
+        //    });
+
+        fetch("http://api.money.126.net/data/feed/1000002",{ mode: "no-cors" })
+            .then((response) => console.log(response.json));
     }
 
-    state = {
-        todos: ["a", "b"],
-        disable:false,
-
-        color:'black'
-    }
-    static propTypes = {
-        //title: React.PropTypes.string.isRequired
-    }
-    static defaultProps = {
-
-        //name: 'liukun',
-    }
-
-    buttonClick() {
-        //console.log();
-        let newValue = this.refs.newText.value;
-        this.state.todos.push(newValue);
-        this.setState({todos:this.state.todos})
-        this.refs.newText.value="";
-
-    }
-
-    disableText(){
-        this.setState({disable:!this.state.disable});
-    }
     render() {
-        //var someArray = [ "a", "b"];
-
         return (
-            <div className="panel">
-                father <TodoItem items={this.state.todos} color={this.state.color}/>
-                <input type="text" ref="newText" disabled={this.state.disable}/>
-                <button onClick={this.buttonClick.bind(this)}>click</button>
-                <button onClick={this.disableText.bind(this)}>disableText</button>
-            </div>
-        )
+            <div>aaa发射点发射点b发射点bbb333bbb！！！！</div>
+        );
     }
 }
-
-ReactDom.render(<App title='刘老爷' pollInterval='1000'/>, document.getElementById("app"));
+ReactDom.render(<App/>, document.getElementById("app"));
